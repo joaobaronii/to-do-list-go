@@ -11,14 +11,14 @@ type config struct {
 	DBName     string `mapstructure:"DB_NAME"`
 }
 
-func LoadConfig(path string) *config{
+func LoadConfig(path string) *config {
 	var cfg *config
 
 	viper.AddConfigPath(path)
-    viper.SetConfigName(".env")
-    viper.SetConfigType("env")
-    viper.AutomaticEnv()
-	
+	viper.SetConfigName(".env")
+	viper.SetConfigType("env")
+	viper.AutomaticEnv()
+
 	err := viper.ReadInConfig()
 	if err != nil {
 		panic(err)
