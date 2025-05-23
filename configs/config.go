@@ -29,3 +29,8 @@ func LoadConfig(path string) *config {
 	}
 	return cfg
 }
+
+func (c *config) GetPostgresURL() string {
+	var url string = "postgres://" + c.DBUser + ":" + c.DBPassword + "@" + c.DBHost + ":" + c.DBPort + "/" + c.DBName 
+	return url
+}
