@@ -1,8 +1,7 @@
 package entity
 
 type Task struct {
-	ID	   string
+	ID     string
 	Name   string
 	Status bool
 }
-

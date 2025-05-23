@@ -7,15 +7,11 @@ import (
 	"github.com/joaobaronii/to-do-list-go/internal/entity"
 )
 
-
-
-func CreateTable(db *sql.DB) error{
-	query := `CREATE TABLE IF NOT EXISTS tasks(
+func CreateTable(db *sql.DB) error {
+	_, err := db.Exec(`CREATE TABLE IF NOT EXISTS tasks(
 				id TEXT PRIMARY KEY,
 				name TEXT NOT NULL,
-				status BOOL DEFAULT false);`
-	
-	_, err := db.Exec(query)
+				status BOOL DEFAULT false);`)
 	return err
 }
 
@@ -62,6 +58,44 @@ func rowsToSlice(rows *sql.Rows) ([]entity.Task, error) {
 	return tasks, nil
 }
 
-// TODO 
-// UPDATE TASK
-// DELETE TASK
+func MarkTaskAsDone(db *sql.DB, name string) error {
+	stmt, err := db.Prepare("UPDATE tasks SET status = true WHERE name = $1")
+	if err != nil {
+		return err
+	}
+	defer stmt.Close()
+	_, err = stmt.Exec(name)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func DeleteAllCompletedTasks(db *sql.DB) error {
+	_, err := db.Exec("DELETE FROM tasks WHERE status = true")
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func DeleteTask(db *sql.DB, name string) error {
+	stmt, err := db.Prepare("DELETE FROM tasks WHERE name = $1")
+	if err != nil {
+		return err
+	}
+	defer stmt.Close()
+	_, err = stmt.Exec(name)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func DeleteAllTasks(db *sql.DB) error {
+	_, err := db.Exec("DELETE FROM tasks")
+	if err != nil {
+		return err
+	}
+	return nil
+}
