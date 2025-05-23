@@ -6,12 +6,11 @@ import (
 
 	_ "github.com/jackc/pgx/v5/stdlib"
 	"github.com/joaobaronii/to-do-list-go/configs"
-	"github.com/joaobaronii/to-do-list-go/internal/database"
+	"github.com/joaobaronii/to-do-list-go/internal/task"
 )
 
 func main() {
-	config := configs.LoadConfig("cmd")	
-	fmt.Printf("Config completa: %+v\n", *config)
+	config := configs.LoadConfig("cmd")
 
 	url := config.GetPostgresURL()
 
@@ -21,5 +20,27 @@ func main() {
 	}
 	defer db.Close()
 
-	database.CreateTable(db)
+	err = task.CreateTable(db)
+	if err != nil {
+		panic(err)
+	}
+
+	var option int
+
+	for option != 5 {
+		fmt.Println("Welcome to the To-Do List App!")
+		fmt.Println("--------------------------------")
+		fmt.Println("1. Add task")
+		fmt.Println("2. List tasks")
+		fmt.Println("3. Mark task as done")
+		fmt.Println("4. Delete task")
+		fmt.Println("5. Exit")
+		fmt.Print("Select an option: ")
+
+		fmt.Scan(&option)
+
+		switch option {
+		
+		}
+	}
 }
