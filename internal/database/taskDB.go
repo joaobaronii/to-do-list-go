@@ -1,9 +1,10 @@
-package task
+package database
 
 import (
 	"database/sql"
 
 	_ "github.com/jackc/pgx/v5"
+	"github.com/joaobaronii/to-do-list-go/internal/entity"
 )
 
 func CreateTable(db *sql.DB) error {
@@ -14,7 +15,7 @@ func CreateTable(db *sql.DB) error {
 	return err
 }
 
-func InsertTask(db *sql.DB, task Task) error {
+func InsertTask(db *sql.DB, task entity.Task) error {
 	stmt, err := db.Prepare("INSERT INTO tasks (id, name, status) VALUES ($1, $2, $3)")
 	if err != nil {
 		return err
@@ -27,7 +28,7 @@ func InsertTask(db *sql.DB, task Task) error {
 	return nil
 }
 
-func SelectTasksByStatus(db *sql.DB, status bool) ([]Task, error) {
+func SelectTasksByStatus(db *sql.DB, status bool) ([]entity.Task, error) {
 	rows, err := db.Query("SELECT name, status FROM tasks WHERE status = $1", status)
 	if err != nil {
 		return nil, err
@@ -35,7 +36,7 @@ func SelectTasksByStatus(db *sql.DB, status bool) ([]Task, error) {
 	return rowsToSlice(rows)
 }
 
-func SelectAllTasks(db *sql.DB) ([]Task, error) {
+func SelectAllTasks(db *sql.DB) ([]entity.Task, error) {
 	rows, err := db.Query("SELECT name, status FROM tasks")
 	if err != nil {
 		return nil, err
@@ -43,11 +44,11 @@ func SelectAllTasks(db *sql.DB) ([]Task, error) {
 	return rowsToSlice(rows)
 }
 
-func rowsToSlice(rows *sql.Rows) ([]Task, error) {
+func rowsToSlice(rows *sql.Rows) ([]entity.Task, error) {
 	defer rows.Close()
-	var tasks []Task
+	var tasks []entity.Task
 	for rows.Next() {
-		var t Task
+		var t entity.Task
 		err := rows.Scan(&t.Name, &t.Status)
 		if err != nil {
 			return nil, err

@@ -6,7 +6,7 @@ import (
 
 	_ "github.com/jackc/pgx/v5/stdlib"
 	"github.com/joaobaronii/to-do-list-go/configs"
-	"github.com/joaobaronii/to-do-list-go/internal/task"
+	"github.com/joaobaronii/to-do-list-go/internal/database"
 )
 
 func main() {
@@ -20,7 +20,7 @@ func main() {
 	}
 	defer db.Close()
 
-	err = task.CreateTable(db)
+	err = database.CreateTable(db)
 	if err != nil {
 		panic(err)
 	}
@@ -40,7 +40,8 @@ func main() {
 		fmt.Scan(&option)
 
 		switch option {
-		
+			case 1:
+				
 		}
 	}
 }
