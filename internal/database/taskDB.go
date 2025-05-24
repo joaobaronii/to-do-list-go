@@ -71,7 +71,7 @@ func MarkTaskAsDone(db *sql.DB, name string) error {
 	return nil
 }
 
-func DeleteAllCompletedTasks(db *sql.DB) error {
+func DeleteAllDoneTasks(db *sql.DB) error {
 	_, err := db.Exec("DELETE FROM tasks WHERE status = true")
 	if err != nil {
 		return err

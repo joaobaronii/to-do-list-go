@@ -17,4 +17,3 @@ func NewTask(name string) Task {
 		Status: false,
 	}
 }
-
