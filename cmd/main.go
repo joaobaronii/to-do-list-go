@@ -7,6 +7,7 @@ import (
 	_ "github.com/jackc/pgx/v5/stdlib"
 	"github.com/joaobaronii/to-do-list-go/configs"
 	"github.com/joaobaronii/to-do-list-go/internal/database"
+	model "github.com/joaobaronii/to-do-list-go/internal/models"
 )
 
 func main() {
@@ -41,7 +42,12 @@ func main() {
 
 		switch option {
 			case 1:
-				
+				err = model.AddTask(db)
+				if err != nil {
+					panic(err)
+				}
+			case 2:
 		}
+			
 	}
 }
